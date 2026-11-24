@@ -14,6 +14,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -34,13 +35,20 @@ OCR_TIMEOUT_SECONDS = 35
 
 WIN_OCR_SCRIPT_PATH = Path(__file__).parent / "win_ocr.ps1"
 
-# Known local Tesseract paths on Windows
+# Known local Tesseract paths on Windows & Linux
 COMMON_TESSERACT_PATHS = [
     Path(os.environ.get("TESSERACT_PATH", "")),
     Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe"),
     Path(r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"),
     Path(os.path.expandvars(r"%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe")),
+    Path("/usr/bin/tesseract"),
+    Path("/usr/local/bin/tesseract"),
 ]
+
+
+def is_windows() -> bool:
+    """Return True if running on Windows OS."""
+    return sys.platform.startswith("win") or os.name == "nt"
 
 
 # ──────────────────────────────────────────────────────────────
@@ -325,12 +333,21 @@ def extract_text_from_image(
         if tesseract_bin:
             logger.info("Using local Tesseract executable at %s", tesseract_bin)
             ocr_result = run_tesseract_ocr(temp_file, tesseract_bin)
-            if not ocr_result.get("success"):
+            if not ocr_result.get("success") and is_windows():
                 logger.info("Tesseract failed; falling back to Windows Native OCR")
                 ocr_result = run_windows_native_ocr(temp_file)
-        else:
+        elif is_windows():
             logger.info("Using Windows Native OCR (Windows.Media.Ocr)")
             ocr_result = run_windows_native_ocr(temp_file)
+        else:
+            logger.warning("No local OCR engine (Tesseract) found in Linux/Render environment.")
+            ocr_result = {
+                "success": False,
+                "text": "",
+                "engine": "none",
+                "error": "No local OCR engine installed on server (Tesseract required on Linux).",
+                "duration_ms": 0,
+            }
 
         raw_text = ocr_result.get("text", "")
         cleaned_text = clean_ocr_text(raw_text)
