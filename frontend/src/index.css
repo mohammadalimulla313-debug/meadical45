@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  /* Card Container */
+  .card {
+    @apply bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xs transition-colors duration-200;
+  }
+
+  .card-header {
+    @apply px-4 py-3 border-b border-slate-100 dark:border-slate-800 font-semibold text-sm flex items-center gap-2 text-slate-800 dark:text-slate-200;
+  }
+
+  /* Status Badges */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium tracking-wide;
+  }
+
+  .badge-present {
+    @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60;
+  }
+
+  .badge-absent {
+    @apply bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60;
+  }
+
+  .badge-historical {
+    @apply bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700;
+  }
+
+  .badge-uncertain {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60;
+  }
+
+  .badge-family_history {
+    @apply bg-indigo-100 text-indigo-800 dark:bg-indigo-950/80 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60;
+  }
+
+  .badge-active {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60;
+  }
+
+  .badge-discontinued {
+    @apply bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 border border-gray-200 dark:border-gray-700;
+  }
+
+  /* Lab Flags */
+  .badge-high {
+    @apply bg-rose-100 text-rose-800 font-bold dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800;
+  }
+
+  .badge-low {
+    @apply bg-blue-100 text-blue-800 font-bold dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800;
+  }
+
+  .badge-normal {
+    @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800;
+  }
+
+  .badge-critical {
+    @apply bg-red-200 text-red-900 font-bold animate-pulse dark:bg-red-950 dark:text-red-200 border border-red-300 dark:border-red-800;
+  }
+
+  .kpi-tile {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400 dark:bg-slate-600;
+}
+
+/* Print Styles */
+@media print {
+  /* 1. Strictly hide the entire interactive dashboard and all overlay chrome */
+  .app-interactive-shell,
+  .no-print,
+  aside,
+  header,
+  nav,
+  footer,
+  #modal-root,
+  .toast-container {
+    display: none !important;
+  }
+
+  /* 2. Reset html & body for pure document rendering */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 3. The isolated print container is the ONLY visible element in print */
+  #mediextract-print-container {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* 4. A4 Page layout & clean page breaks */
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  table,
+  tr,
+  td,
+  th,
+  section,
+  .print-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+}

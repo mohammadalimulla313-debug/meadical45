@@ -1,0 +1,34 @@
+"""Medical dictionaries and clinical reference data."""
+from .dictionaries import (
+    SECTION_HEADER_PATTERNS,
+    SYMPTOMS_LEXICON,
+    DIAGNOSES_LEXICON,
+    MEDICATIONS_LEXICON,
+    DOSAGE_RE,
+    FREQUENCY_RE,
+    ROUTE_RE,
+    LAB_PATTERNS,
+    LAB_RANGES,
+    VITAL_PATTERNS,
+    ALLERGY_SECTION_RE,
+    ALLERGIC_TO_RE,
+    NKDA_RE,
+    REACTION_RE,
+)
+
+__all__ = [
+    "SECTION_HEADER_PATTERNS",
+    "SYMPTOMS_LEXICON",
+    "DIAGNOSES_LEXICON",
+    "MEDICATIONS_LEXICON",
+    "DOSAGE_RE",
+    "FREQUENCY_RE",
+    "ROUTE_RE",
+    "LAB_PATTERNS",
+    "LAB_RANGES",
+    "VITAL_PATTERNS",
+    "ALLERGY_SECTION_RE",
+    "ALLERGIC_TO_RE",
+    "NKDA_RE",
+    "REACTION_RE",
+]
